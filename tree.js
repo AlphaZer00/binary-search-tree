@@ -9,7 +9,25 @@ const Tree = (arr) => {
 		return root;
 	};
 
-	return { returnRoot };
+	const insert = (root, data) => {
+		if (root === null) {
+			return Node(data);
+		}
+
+		if (root.data === data) {
+			return root;
+		}
+
+		if (data < root.data) {
+			root.left = insert(root.left, data);
+		} else if (data > root.data) {
+			root.right = insert(root.right, data);
+		}
+
+		return root;
+	};
+
+	return { returnRoot, insert };
 };
 
 function buildTree(arr, start = 0, end = arr.length - 1) {
@@ -42,7 +60,11 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 	}
 };
 
-const inputArr = [1, 2, 2, 3, 5, 6, 5, 8, 8, 7];
-const test = Tree(inputArr);
-const output = test.returnRoot();
-prettyPrint(output);
+// const inputArr = [2, 3, 4];
+
+// const test = Tree(inputArr);
+
+// const output = test.returnRoot();
+
+// test.insert(output, 1);
+// prettyPrint(output);
