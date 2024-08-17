@@ -66,9 +66,9 @@ const Tree = (arr) => {
 
 	const find = (root, value) => {
 		if (root.data === value || root === null) {
-            prettyPrint(root);
-            return root;
-        }
+			prettyPrint(root);
+			return root;
+		}
 		if (value > root.data) {
 			return find(root.right, value);
 		} else if (value < root.data) {
@@ -76,31 +76,76 @@ const Tree = (arr) => {
 		}
 	};
 
-    const levelOrder= (root, callback) => {
-        if (!callback) {
-            throw new Error('Callback function is required!');
-        }
+	const levelOrder = (root, callback) => {
+		if (!callback) {
+			throw new Error("Callback function is required!");
+		}
 
-        if (root === null) return root;
+		if (root === null) return root;
 
-        const queue = [];
+		const queue = [];
 
-        queue.push(root);
+		queue.push(root);
 
-        while(queue[0]) {
-            let current = queue[0];
-            callback(current);
-            if (current.left) {
-                queue.push(current.left);
-            }
-            if (current.right) {
-                queue.push(current.right);
-            }
-            queue.shift()
-        }
-    }
+		while (queue[0]) {
+			let current = queue[0];
+			callback(current);
+			if (current.left) {
+				queue.push(current.left);
+			}
+			if (current.right) {
+				queue.push(current.right);
+			}
+			queue.shift();
+		}
+	};
 
-	return { returnRoot, insert, deleteItem, find, levelOrder};
+	const inOrder = (root, callback) => {
+		if (!callback) {
+			throw new Error("Callback function is required!");
+		}
+
+		if (root === null) return;
+
+		inOrder(root.left, callback);
+		callback(root);
+		inOrder(root.right, callback);
+	};
+
+	const preOrder = (root, callback) => {
+		if (!callback) {
+			throw new Error("Callback function is required!");
+		}
+
+		if (root === null) return;
+
+		callback(root);
+		preOrder(root.left, callback);
+		preOrder(root.right, callback);
+	};
+
+	const postOrder = (root, callback) => {
+		if (!callback) {
+			throw new Error("Callback function is required!");
+		}
+
+		if (root === null) return;
+
+		postOrder(root.left, callback);
+		postOrder(root.right, callback);
+		callback(root);
+	};
+
+	return {
+		returnRoot,
+		insert,
+		deleteItem,
+		find,
+		levelOrder,
+		inOrder,
+		preOrder,
+		postOrder,
+	};
 };
 
 function buildTree(arr, start = 0, end = arr.length - 1) {
@@ -138,5 +183,11 @@ const inputArr = [1, 2, 3, 4, 5, 6, 7, 15, 14, 12];
 const test = Tree(inputArr);
 
 const myRoot = test.returnRoot();
+
+function log(x) {
+	return console.log(x.data);
+}
+
+test.postOrder(myRoot, log);
 
 prettyPrint(myRoot);
