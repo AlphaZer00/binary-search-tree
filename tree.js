@@ -76,7 +76,27 @@ const Tree = (arr) => {
 		}
 	};
 
-	return { returnRoot, insert, deleteItem, find};
+    const levelOrder= (root, callback) => {
+        if (root === null) return root;
+
+        const queue = [];
+
+        queue.push(root);
+
+        while(queue[0]) {
+            let current = queue[0];
+            callback(current);
+            if (current.left) {
+                queue.push(current.left);
+            }
+            if (current.right) {
+                queue.push(current.right);
+            }
+            queue.shift()
+        }
+    }
+
+	return { returnRoot, insert, deleteItem, find, levelOrder};
 };
 
 function buildTree(arr, start = 0, end = arr.length - 1) {
@@ -113,6 +133,6 @@ const inputArr = [1, 2, 3, 4, 5, 6, 7, 15, 14, 12];
 
 const test = Tree(inputArr);
 
-const output = test.returnRoot();
+const myRoot = test.returnRoot();
 
-prettyPrint(output);
+prettyPrint(myRoot);
