@@ -64,7 +64,19 @@ const Tree = (arr) => {
 		return root;
 	};
 
-	return { returnRoot, insert, deleteItem };
+	const find = (root, value) => {
+		if (root.data === value || root === null) {
+            prettyPrint(root);
+            return root;
+        }
+		if (value > root.data) {
+			return find(root.right, value);
+		} else if (value < root.data) {
+			return find(root.left, value);
+		}
+	};
+
+	return { returnRoot, insert, deleteItem, find};
 };
 
 function buildTree(arr, start = 0, end = arr.length - 1) {
@@ -97,11 +109,10 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 	}
 };
 
-// const inputArr = [2, 3, 4];
+const inputArr = [1, 2, 3, 4, 5, 6, 7, 15, 14, 12];
 
-// const test = Tree(inputArr);
+const test = Tree(inputArr);
 
-// const output = test.returnRoot();
+const output = test.returnRoot();
 
-// test.insert(output, 1);
-// prettyPrint(output);
+prettyPrint(output);
