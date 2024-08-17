@@ -77,6 +77,10 @@ const Tree = (arr) => {
 	};
 
     const levelOrder= (root, callback) => {
+        if (!callback) {
+            throw new Error('Callback function is required!');
+        }
+
         if (root === null) return root;
 
         const queue = [];
