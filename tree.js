@@ -136,6 +136,19 @@ const Tree = (arr) => {
 		callback(root);
 	};
 
+    const height = (root) => {
+        if (root === null) return -1;
+
+        let leftHeight = height(root.left);
+        let rightHeight = height(root.right);
+
+        if(leftHeight > rightHeight) {
+            return leftHeight + 1;
+        } else {
+            return rightHeight + 1;
+        }
+    }
+
 	return {
 		returnRoot,
 		insert,
@@ -145,6 +158,7 @@ const Tree = (arr) => {
 		inOrder,
 		preOrder,
 		postOrder,
+        height
 	};
 };
 
@@ -188,6 +202,6 @@ function log(x) {
 	return console.log(x.data);
 }
 
-test.postOrder(myRoot, log);
+console.log(test.height(myRoot));
 
 prettyPrint(myRoot);
