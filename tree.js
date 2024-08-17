@@ -27,7 +27,44 @@ const Tree = (arr) => {
 		return root;
 	};
 
-	return { returnRoot, insert };
+	const deleteItem = (root, data) => {
+		//Base case
+		if (root === null) {
+			return root;
+		}
+
+		//If key is in a subtree
+		if (root.data > data) {
+			root.left = deleteItem(root.left, data);
+		} else if (root.data < data) {
+			root.right = deleteItem(root.right, data);
+		} else {
+			//When root is equivalent to data
+
+			//When root has no children or only right child
+			if (root.left === null) return root.right;
+
+			//When root has only left child
+			if (root.right === null) return root.left;
+
+			//When root has left and right child
+			let successor = getSuccessor(root);
+			root.data = successor.data;
+			root.right = deleteItem(root.right, successor.data);
+		}
+
+		function getSuccessor(current) {
+			current = current.right;
+			while (current !== null && current.left !== null) {
+				current = current.left;
+			}
+			return current;
+		}
+
+		return root;
+	};
+
+	return { returnRoot, insert, deleteItem };
 };
 
 function buildTree(arr, start = 0, end = arr.length - 1) {
