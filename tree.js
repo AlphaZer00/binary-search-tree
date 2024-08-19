@@ -136,16 +136,28 @@ const Tree = (arr) => {
 		callback(root);
 	};
 
-    const height = (root) => {
-        if (root === null) return -1;
+    const height = (node) => {
+        if (node === null) return -1;
 
-        let leftHeight = height(root.left);
-        let rightHeight = height(root.right);
+        let leftHeight = height(node.left);
+        let rightHeight = height(node.right);
 
         if(leftHeight > rightHeight) {
             return leftHeight + 1;
         } else {
             return rightHeight + 1;
+        }
+    }
+
+    const getDepth = (node, root, depth = 0) => {
+        if (root === null || node === null) return;
+
+        if (node === root) return `Depth of node is ${depth}`;
+
+        if (node.data < root.data) {
+            return getDepth(node, root.left, depth +=1);
+        } else if (node.data > root.data) {
+            return getDepth(node, root.right, depth +=1);
         }
     }
 
@@ -158,7 +170,8 @@ const Tree = (arr) => {
 		inOrder,
 		preOrder,
 		postOrder,
-        height
+        height,
+        getDepth
 	};
 };
 
@@ -202,6 +215,8 @@ function log(x) {
 	return console.log(x.data);
 }
 
-console.log(test.height(myRoot));
+const myNode = test.find(myRoot, 1);
+
+console.log(test.height(myNode));
 
 prettyPrint(myRoot);
