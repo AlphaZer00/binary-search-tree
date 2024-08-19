@@ -136,30 +136,42 @@ const Tree = (arr) => {
 		callback(root);
 	};
 
-    const height = (node) => {
-        if (node === null) return -1;
+	const height = (node) => {
+		if (node === null) return -1;
 
-        let leftHeight = height(node.left);
-        let rightHeight = height(node.right);
+		let leftHeight = height(node.left);
+		let rightHeight = height(node.right);
 
-        if(leftHeight > rightHeight) {
-            return leftHeight + 1;
-        } else {
-            return rightHeight + 1;
-        }
-    }
+		if (leftHeight > rightHeight) {
+			return leftHeight + 1;
+		} else {
+			return rightHeight + 1;
+		}
+	};
 
-    const getDepth = (node, root, depth = 0) => {
-        if (root === null || node === null) return;
+	const getDepth = (node, root, depth = 0) => {
+		if (root === null || node === null) return;
 
-        if (node === root) return `Depth of node is ${depth}`;
+		if (node === root) return `Depth of node is ${depth}`;
 
-        if (node.data < root.data) {
-            return getDepth(node, root.left, depth +=1);
-        } else if (node.data > root.data) {
-            return getDepth(node, root.right, depth +=1);
-        }
-    }
+		if (node.data < root.data) {
+			return getDepth(node, root.left, (depth += 1));
+		} else if (node.data > root.data) {
+			return getDepth(node, root.right, (depth += 1));
+		}
+	};
+
+	const isBalanced = (root) => {
+		if (root === null) return true;
+
+		let leftHeight = height(root.left);
+		let rightHeight = height(root.right);
+
+		if (
+			Math.abs(leftHeight - rightHeight) <= 1 ) return true;
+
+		return false;
+	};
 
 	return {
 		returnRoot,
@@ -170,8 +182,9 @@ const Tree = (arr) => {
 		inOrder,
 		preOrder,
 		postOrder,
-        height,
-        getDepth
+		height,
+		getDepth,
+		isBalanced,
 	};
 };
 
@@ -205,7 +218,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 	}
 };
 
-const inputArr = [1, 2, 3, 4, 5, 6, 7, 15, 14, 12];
+const inputArr = [1, 2, 3, 4, 5];
 
 const test = Tree(inputArr);
 
@@ -215,8 +228,6 @@ function log(x) {
 	return console.log(x.data);
 }
 
-const myNode = test.find(myRoot, 1);
-
-console.log(test.height(myNode));
+console.log(test.isBalanced(myRoot));
 
 prettyPrint(myRoot);
