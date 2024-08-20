@@ -27,7 +27,7 @@ console.log("Pre Order");
 console.log(bst.preOrder(root, print));
 //  In Order
 console.log("In Order:", bst.inOrder(root));
-// Post Order
+//  Post Order
 console.log("Post Order");
 console.log(bst.postOrder(root, print));
 
