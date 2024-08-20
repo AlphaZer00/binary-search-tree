@@ -100,16 +100,14 @@ const Tree = (arr) => {
 		}
 	};
 
-	const inOrder = (root, callback) => {
-		if (!callback) {
-			throw new Error("Callback function is required!");
-		}
-
+	const inOrder = (root, arr = []) => {
 		if (root === null) return;
 
-		inOrder(root.left, callback);
-		callback(root);
-		inOrder(root.right, callback);
+		inOrder(root.left, arr);
+		arr.push(root.data);
+		inOrder(root.right, arr);
+
+		return arr;
 	};
 
 	const preOrder = (root, callback) => {
@@ -167,10 +165,16 @@ const Tree = (arr) => {
 		let leftHeight = height(root.left);
 		let rightHeight = height(root.right);
 
-		if (
-			Math.abs(leftHeight - rightHeight) <= 1 ) return true;
+		if (Math.abs(leftHeight - rightHeight) <= 1) return true;
 
 		return false;
+	};
+
+	const rebalance = (root) => {
+		const myArr = inOrder(root);
+		const result = buildTree(myArr);
+		prettyPrint(result);
+		return result;
 	};
 
 	return {
@@ -185,6 +189,7 @@ const Tree = (arr) => {
 		height,
 		getDepth,
 		isBalanced,
+		rebalance,
 	};
 };
 
@@ -218,16 +223,8 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 	}
 };
 
-const inputArr = [1, 2, 3, 4, 5];
+const inputArr = [1, 2, 3, 4, 6];
 
 const test = Tree(inputArr);
 
 const myRoot = test.returnRoot();
-
-function log(x) {
-	return console.log(x.data);
-}
-
-console.log(test.isBalanced(myRoot));
-
-prettyPrint(myRoot);
